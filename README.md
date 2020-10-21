@@ -76,7 +76,7 @@ apoc.import.file.enabled=true
 ### CONSTRUÇÃO DOS NÓS ###
 ##########################
 
-### NÓS de 'PROCESSOS'####
+### NÓS de 'PROCESSOS'
 
 CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo  
 

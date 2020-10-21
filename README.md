@@ -1,6 +1,7 @@
 # datajud-graph-analytics
 Trabalho para o Hackathon do DATAJUD - https://www.cnj-inova.com/
 
+Link do vídeo para demonstração: https://youtu.be/ogPPbpDpe58
 
 ANALISE DE GRAFOS APLICADO A ACOMPANHAMENTO DE PROCESSOS JUDICIAIS
 

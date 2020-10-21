@@ -6,9 +6,9 @@ ANALISE DE GRAFOS APLICADO A ACOMPANHAMENTO DE PROCESSOS JUDICIAIS
 
 Autores:
 EQUIPE 18
-- Mauro Tomio Saito
-- Ibson Melo dos Santos Rego
-- Yuri Jacob Lumer
+- Mauro Tomio Saito  
+- Ibson Melo dos Santos Rego  
+- Yuri Jacob Lumer  
 
 
 TÍTULO: ANALISE DE GRAFOS APLICADO A ACOMPANHAMENTO DE PROCESSOS JUDICIAIS
@@ -20,9 +20,9 @@ O presente trabalho trata de uma proposta de solução para o Desafio 1 do Hacka
 
 O desafio trata da mineração do banco de dados do DATAJUD, que tem como principais objetivos, basicamente:
 
-a) encontrar em soluções que fomentem a celeridade processual;
-b) construir uma estratégia inteligente de controle interno de processos e alertar sobre possíveis gargalos no tempo de tramitação processual;
-c) auxiliar na construção de um diagnóstico para oportunizar medidas assertivas a fim de permitir maior eficiência dos atos.
+a) encontrar em soluções que fomentem a celeridade processual;  
+b) construir uma estratégia inteligente de controle interno de processos e alertar sobre possíveis gargalos no tempo de tramitação processual;  
+c) auxiliar na construção de um diagnóstico para oportunizar medidas assertivas a fim de permitir maior eficiência dos atos.  
 
 Tendo em vista que a análise por grafos pode ser útil para resolução de problemas relacionados a processos e que um diagrama por vezes gera mais informação que várias linhas de palavras, além de que seguem três premissas - performance, flexibilidade e agilidade - propusemos o uso da ferramenta NEO4J. 
 
@@ -52,9 +52,9 @@ Além da instalação da biblioteca APOC, é necessário incluir os parâmetros 
 O arquivo neo4j.conf também pode ser editado na aba 'Settings', ao lado da aba 'Plugins' da área de configuração.
 
 ### Parâmetros a serem incluídos ao final do arquivo neo4j.conf
-apoc.trigger.enabled=true
-apoc.ttl.enabled=true
-apoc.import.file.enabled=true
+apoc.trigger.enabled=true  
+apoc.ttl.enabled=true  
+apoc.import.file.enabled=true  
 
 
 

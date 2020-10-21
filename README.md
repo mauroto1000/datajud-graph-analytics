@@ -11,14 +11,14 @@ EQUIPE 18
 - Yuri Jacob Lumer  
 
 
-TÍTULO: ANALISE DE GRAFOS APLICADO A ACOMPANHAMENTO DE PROCESSOS JUDICIAIS
+TÍTULO: ANALISE DE GRAFOS APLICADO A ACOMPANHAMENTO DE PROCESSOS JUDICIAIS  
 
 
-- BREVE DESCRIÇÃO DO PROJETO
+- BREVE DESCRIÇÃO DO PROJETO  
 
-O presente trabalho trata de uma proposta de solução para o Desafio 1 do Hackathon do CNJ INOVA, realizado no período de 09/10/2020 a 19/11/2020.
+O presente trabalho trata de uma proposta de solução para o Desafio 1 do Hackathon do CNJ INOVA, realizado no período de 09/10/2020 a 19/11/2020.  
 
-O desafio trata da mineração do banco de dados do DATAJUD, que tem como principais objetivos, basicamente:
+O desafio trata da mineração do banco de dados do DATAJUD, que tem como principais objetivos, basicamente:  
 
 a) encontrar em soluções que fomentem a celeridade processual;  
 b) construir uma estratégia inteligente de controle interno de processos e alertar sobre possíveis gargalos no tempo de tramitação processual;  
@@ -27,7 +27,7 @@ c) auxiliar na construção de um diagnóstico para oportunizar medidas assertiv
 Tendo em vista que a análise por grafos pode ser útil para resolução de problemas relacionados a processos e que um diagrama por vezes gera mais informação que várias linhas de palavras, além de que seguem três premissas - performance, flexibilidade e agilidade - propusemos o uso da ferramenta NEO4J. 
 
 
-- NEO4J
+- NEO4J  
 
 É uma das 25 ferramentas mais utilizadas para gerenciamento de banco de dados e a mais utilizada no modelo baseado em grafos, segundo o site https://db-engines.com/en/ranking.
 
@@ -78,46 +78,46 @@ apoc.import.file.enabled=true
 
 ### NÓS de 'PROCESSOS'####
 
-CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo
+CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo  
 
-MERGE (p:Processo {numero: toInteger(processo.dadosBasicos.numero)})
+MERGE (p:Processo {numero: toInteger(processo.dadosBasicos.numero)})  
 
 SET
-p.millisInsercao = toInteger(processo.millisInsercao),
-p.dataAjuizamento = toInteger(processo.dadosBasicos.dataAjuizamento),
-p.classeProcessual = processo.dadosBasicos.classeProcessual,
-p.nivelSigilo = processo.dadosBasicos.nivelSigilo,
-p.competencia = processo.dadosBasicos.competencia,
-p.codLocalidade = processo.dadosBasicos.codigoLocalidade,
-p.tribunal = processo.siglaTribunal,
-p.codOrgaoJulgador = processo.dadosBasicos.orgaoJulgador.codigoOrgao
+p.millisInsercao = toInteger(processo.millisInsercao),  
+p.dataAjuizamento = toInteger(processo.dadosBasicos.dataAjuizamento),  
+p.classeProcessual = processo.dadosBasicos.classeProcessual,  
+p.nivelSigilo = processo.dadosBasicos.nivelSigilo,  
+p.competencia = processo.dadosBasicos.competencia,  
+p.codLocalidade = processo.dadosBasicos.codigoLocalidade,  
+p.tribunal = processo.siglaTribunal,  
+p.codOrgaoJulgador = processo.dadosBasicos.orgaoJulgador.codigoOrgao  
 
 
 ### NÓS de 'ORGÃOS JULGADORES' ####
 
-CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo
-MERGE (oj:  CodOrgaoJulgador {codOrgaoJulgador: processo.dadosBasicos.orgaoJulgador.codigoOrgao})
-SET
-oj.nomeOrgao = processo.dadosBasicos.orgaoJulgador.nomeOrgao,
-oj.codMunicipioIBGE = processo.dadosBasicos.orgaoJulgador.codigoMunicipioIBGE,
-oj.instancia = processo.dadosBasicos.orgaoJulgador.instancia
+CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo  
+MERGE (oj:  CodOrgaoJulgador {codOrgaoJulgador: processo.dadosBasicos.orgaoJulgador.codigoOrgao})  
+SET  
+oj.nomeOrgao = processo.dadosBasicos.orgaoJulgador.nomeOrgao,  
+oj.codMunicipioIBGE = processo.dadosBasicos.orgaoJulgador.codigoMunicipioIBGE,  
+oj.instancia = processo.dadosBasicos.orgaoJulgador.instancia  
 
 
 ### NÓS de 'MOVIMENTOS' processuais ####
 
-CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo
-unwind processo.movimento as mov
-CREATE (m: Movimento {dataHora: toInteger(mov.dataHora)})
-SET m.millisInsercao = processo.millisInsercao
-SET m.movimentoNacional = mov.movimentoNacional.codigoNacional
-set m.movimentoLocalCodLocal = mov.movimentoLocal.codigoMovimento
-set m.movimentoLocal.codPaiNacional = mov.movimentoLocal.codigoPaiNacional
+CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo  
+unwind processo.movimento as mov  
+CREATE (m: Movimento {dataHora: toInteger(mov.dataHora)})  
+SET m.millisInsercao = processo.millisInsercao  
+SET m.movimentoNacional = mov.movimentoNacional.codigoNacional  
+set m.movimentoLocalCodLocal = mov.movimentoLocal.codigoMovimento  
+set m.movimentoLocal.codPaiNacional = mov.movimentoLocal.codigoPaiNacional  
 
 
 ### NÓS de 'CLASSES PROCESSUAIS' ####
 
-CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo
-MERGE (c:ClasseProcessual {classeProcessual: toInteger(processo.dadosBasicos.classeProcessual)})
+CALL apoc.load.json("processos-tre-sp_1.json") YIELD value as processo  
+MERGE (c:ClasseProcessual {classeProcessual: toInteger(processo.dadosBasicos.classeProcessual)})  
 
 
 #########################################
@@ -126,24 +126,23 @@ MERGE (c:ClasseProcessual {classeProcessual: toInteger(processo.dadosBasicos.cla
 
 ### VÍNCULOS entre as 'CLASSES PROCESSUAIS' e os 'PROCESSOS' ###
 
-MATCH (p:Processo), (c:ClasseProcessual)
-where
-p.classeProcessual = c.classeProcessual
-CREATE (p)-[:CLASSE]->(c)
+MATCH (p:Processo), (c:ClasseProcessual)  
+where p.classeProcessual = c.classeProcessual  
+CREATE (p)-[:CLASSE]->(c)  
 
 
 ### VÍNCULOS entre 'PROCESSO' e os 'ÓRGAOS JULGADORES' ###
 
-MATCH (p:Processo), (j:CodOrgaoJulgador)
-WHERE p.codOrgaoJulgador = j.codOrgaoJulgador
-CREATE (j)<-[:JULGADO_POR]-(p)
+MATCH (p:Processo), (j:CodOrgaoJulgador)  
+WHERE p.codOrgaoJulgador = j.codOrgaoJulgador  
+CREATE (j)<-[:JULGADO_POR]-(p)  
 
 
 ### VÍNCULOS entre 'PROCESSOS' com seus 'MOVIMENTOS' processuais (tramitação) ###
 
-match (p:Processo), (m:Movimento)
-where p.millisInsercao=m.millisInsercao
-CREATE (p)-[:MOVIMENTO]->(m)
+match (p:Processo), (m:Movimento)  
+where p.millisInsercao=m.millisInsercao  
+CREATE (p)-[:MOVIMENTO]->(m)  
 
 
 #########################################
@@ -156,38 +155,37 @@ CREATE (p)-[:MOVIMENTO]->(m)
 
 ### Quantas movimentações houve no PROCESSO de número 24620116260003 ###
 
-MATCH (p:Processo), (m: Movimento), (p)-[:MOVIMENTO]->(m)
-WHERE p.numero = 24620116260003
-RETURN p.numero
+MATCH (p:Processo), (m: Movimento), (p)-[:MOVIMENTO]->(m)  
+WHERE p.numero = 24620116260003   
+RETURN p.numero  
 
 
 ### Quais as CLASSES PROCESSUAIS existentes em cada ÓRGÃO JULGADOR ###
 
-MATCH (o:CodOrgaoJulgador), (p:Processo),(o)<-[:JULGADO_POR]-(p)
-RETURN  o.nomeOrgao, collect(p.classeProcessual)
+MATCH (o:CodOrgaoJulgador), (p:Processo),(o)<-[:JULGADO_POR]-(p)  
+RETURN  o.nomeOrgao, collect(p.classeProcessual)  
 
 
 ### Qual a quantidade de PROCESSOS por ÓRGÃO JULGADOR ###
 
-MATCH (o:CodOrgaoJulgador), (c:ClasseProcessual)
-RETURN  o.nomeOrgao, count(c)
-order by count(c) desc
+MATCH (o:CodOrgaoJulgador), (c:ClasseProcessual)  
+RETURN  o.nomeOrgao, count(c)  
+order by count(c) desc  
 
 
 ### Quantas MOVIMENTOS houve em cada ÓRGÃO JULGADOR ###
 
-MATCH 
-(o:CodOrgaoJulgador), (p:Processo), (m:Movimento),
-(o)<-[:JULGADO_POR]-(p)-[:MOVIMENTO]->(m)
-RETURN o.nomeOrgao, COUNT(m.dataHora)
-ORDER BY COUNT(m.dataHora) DESC
+MATCH (o:CodOrgaoJulgador), (p:Processo), (m:Movimento),  
+(o)<-[:JULGADO_POR]-(p)-[:MOVIMENTO]->(m)  
+RETURN o.nomeOrgao, COUNT(m.dataHora)  
+ORDER BY COUNT(m.dataHora) DESC  
 
 
 ### Quantos MOVIMENTOS processuais houve em cada ÓRGÃO JULGADOR?
 
-MATCH (o:CodOrgaoJulgador), (p:Processo), (m:Movimento), (o)<-[:JULGADO_POR]-(p)-[:MOVIMENTO]->(m)
-RETURN o.nomeOrgao, count(m.dataHora)
-ORDER BY COUNT(m.dataHora) DESC
+MATCH (o:CodOrgaoJulgador), (p:Processo), (m:Movimento), (o)<-[:JULGADO_POR]-(p)-[:MOVIMENTO]->(m)  
+RETURN o.nomeOrgao, count(m.dataHora)  
+ORDER BY COUNT(m.dataHora) DESC  
 
 
 - MELHORIAS A SEREM IMPLEMENTADAS
@@ -197,8 +195,8 @@ Tendo em vista que um dos objetivos é "alertar sobre possíveis gargalos no tem
 
 - AMBIENTE DE TESTES E VERIFICAÇÃO DAS FUNCIONALIDADES - provisório para o período do Hackathon: 09/10/2020 a 19/11/2020
 
-Para possibilitar a verificação das funcionalidades e testar as consultas, um ambiente em Windows com o NEO4J instalado será disponibilizado via RDP no endereço eletrônico no seguinte site:
+Para possibilitar a verificação das funcionalidades e testar as consultas, um ambiente em Windows com o NEO4J instalado será disponibilizado via RDP no endereço eletrônico no seguinte site:  
 
-www.to1000analytics.com
-Nome de usuário: Administrator
-Senha: datajud
+www.to1000analytics.com  
+Nome de usuário: Administrator  
+Senha: datajud  
